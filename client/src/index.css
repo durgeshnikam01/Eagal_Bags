@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #111111;
+  --primary-foreground: #ffffff;
+  --accent: #f5f5f7;
+  --accent-foreground: #1d1d1f;
+  --background: #ffffff;
+  --foreground: #1d1d1f;
+  --card: #ffffff;
+  --card-foreground: #1d1d1f;
+  --border: #e5e5e7;
+  --input: #f5f5f7;
+  --ring: #111111;
+  --radius: 1.5rem;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #f5f5f7;
+  --card: #111111;
+  --card-foreground: #f5f5f7;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --accent: #1d1d1f;
+  --accent-foreground: #ffffff;
+  --border: #2c2c2e;
+  --input: #1c1c1e;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-[20px] bg-primary px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-primary-foreground shadow-2xl transition-all hover:opacity-90 active:scale-95 disabled:opacity-50;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-[20px] bg-accent px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] text-accent-foreground transition-all hover:bg-border active:scale-95 disabled:opacity-50;
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-xl border border-border shadow-2xl rounded-[40px];
+  }
+
+  .input-field {
+    @apply w-full rounded-[20px] border-none bg-input px-6 py-4 text-sm font-medium focus:ring-2 focus:ring-primary focus:ring-opacity-20 transition-all placeholder:text-gray-400;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 dark:bg-gray-800 rounded-full;
+  }
+}
+
+/* Animations */
+.fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Typography Overrides for Classy Look */
+h1, h2, h3, h4, h5, h6 {
+  @apply tracking-tight font-extrabold;
+}
+
+.tracking-tighter {
+  letter-spacing: -0.05em;
+}
+
+.tracking-widest {
+  letter-spacing: 0.25em;
+}
