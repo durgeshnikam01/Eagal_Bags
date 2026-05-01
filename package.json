@@ -1,0 +1,13 @@
+{
+  "name": "eagal-bags-erp",
+  "version": "1.0.0",
+  "description": "Manufacturing ERP for Eagal Bags",
+  "scripts": {
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "server": "cd server && npm start",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build"
+  },
+  "author": "durgeshnikam01",
+  "license": "ISC"
+}
