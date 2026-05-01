@@ -20,6 +20,9 @@ import salesRoutes from './routes/salesRoutes.js';
 // Load env vars
 dotenv.config();
 
+// 🔥 DEBUG: Check if env is loaded
+console.log("MONGO_URI:", process.env.MONGO_URI ? "Loaded ✅" : "NOT FOUND ❌");
+
 // Connect to database
 connectDB();
 
@@ -27,12 +30,22 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+
+// ✅ FIXED CORS FOR PRODUCTION
+app.use(cors({
+  origin: "*"
+}));
+
 app.use(helmet());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+// ✅ ROOT TEST ROUTE
+app.get('/', (req, res) => {
+  res.send('Backend is running...');
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -57,6 +70,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+// 🔥 FIXED FOR RENDER / CLOUD
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
