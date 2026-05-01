@@ -4,8 +4,10 @@ import useAuthStore from '../store/authStore';
 import { motion } from 'framer-motion';
 import { Package, ArrowRight, Lock, Mail, Activity } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import axiosInstance from '../services/api/axiosInstance';
 
 const Login = () => {
+  console.log('Current API Base URL:', axiosInstance.defaults.baseURL);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const login = useAuthStore((state) => state.login);

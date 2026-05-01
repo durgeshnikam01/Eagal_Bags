@@ -16,6 +16,12 @@ const useAuthStore = create((set) => ({
       set({ user: data, token: data.token, isLoading: false });
       return true;
     } catch (error) {
+      console.error('Login Error Details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        config: error.config
+      });
       set({
         error: error.response && error.response.data.message
           ? error.response.data.message

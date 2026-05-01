@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+const getBaseURL = () => {
+  const url = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://eagal-bags.onrender.com/api' : 'http://localhost:5000/api');
+  return url.endsWith('/') ? url.slice(0, -1) : url;
+};
+
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://eagal-bags.onrender.com/api' : 'http://localhost:5000/api'),
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },

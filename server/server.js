@@ -21,19 +21,36 @@ dotenv.config();
 
 // 🔥 DEBUG: Check if env is loaded
 console.log("MONGO_URI:", process.env.MONGO_URI ? "Loaded ✅" : "NOT FOUND ❌");
+console.log("JWT_SECRET:", process.env.JWT_SECRET ? "Loaded ✅" : "NOT FOUND ❌");
+
+if (!process.env.JWT_SECRET) {
+  console.error("CRITICAL ERROR: JWT_SECRET is not defined in environment variables!");
+}
 
 // Connect to database
 connectDB();
 
 const app = express();
 
-// ✅ MANUAL CORS HANDLING (Must be first)
+// ✅ MANUAL CORS HANDLING (Optimized for Production & Dev)
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://eagal-bags-git-main-durgeshnikam01s-projects.vercel.app'
+  ];
+  
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  } else {
+    res.header('Access-Control-Allow-Origin', '*'); // Fallback to allow debugging
+  }
+
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   
-  // Handle Preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).json({});
   }
