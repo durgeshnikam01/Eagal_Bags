@@ -10,22 +10,35 @@ const useAuthStore = create((set) => ({
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const { data } = await axiosInstance.post('/auth/login', { email, password });
-      localStorage.setItem('user', JSON.stringify(data));
-      localStorage.setItem('token', data.token);
-      set({ user: data, token: data.token, isLoading: false });
-      return true;
+      // Import the local credentials
+      const { AUTH_USERS } = await import('../utils/authCredentials');
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      const user = AUTH_USERS.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        // Create a mock response that matches what the backend would return
+        const mockData = {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          token: `mock-jwt-token-${user._id}-${Date.now()}`
+        };
+
+        localStorage.setItem('user', JSON.stringify(mockData));
+        localStorage.setItem('token', mockData.token);
+        set({ user: mockData, token: mockData.token, isLoading: false });
+        return true;
+      } else {
+        throw new Error('Invalid email or password');
+      }
     } catch (error) {
-      console.error('Login Error Details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        config: error.config
-      });
+      console.error('Login Error:', error.message);
       set({
-        error: error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+        error: error.message,
         isLoading: false,
       });
       return false;
