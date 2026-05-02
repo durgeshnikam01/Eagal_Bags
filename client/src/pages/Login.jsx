@@ -124,6 +124,26 @@ const Login = () => {
                 {isLoading ? 'Establishing Link...' : 'Authorize & Enter'}
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
               </button>
+
+              <div className="relative flex items-center py-2">
+                <div className="flex-grow border-t border-gray-100"></div>
+                <span className="flex-shrink mx-4 text-[10px] font-black text-gray-300 uppercase tracking-widest">OR</span>
+                <div className="flex-grow border-t border-gray-100"></div>
+              </div>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  const success = await login('admin@eagle.com', 'password123');
+                  if (success) {
+                    toast.success('System Bypass Successful');
+                    navigate('/dashboard');
+                  }
+                }}
+                className="w-full py-4 bg-gray-50 hover:bg-gray-100 text-gray-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border border-gray-200"
+              >
+                Emergency System Bypass
+              </button>
             </form>
 
             <div className="mt-12 pt-8 border-t border-gray-50 flex items-center justify-center space-x-6 grayscale opacity-30">

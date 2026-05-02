@@ -4,7 +4,8 @@ import {
   ShoppingCart, Users, Package, Activity, 
   TrendingUp, ArrowUpRight, ArrowDownRight, 
   Calendar, ChevronRight, X, Download, Eye,
-  BarChart3, PieChart, Layers, IndianRupee
+  BarChart3, PieChart, Layers, IndianRupee,
+  Search, ShoppingBag, ShieldCheck, Truck, CreditCard
 } from 'lucide-react';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, 
@@ -13,6 +14,7 @@ import {
 } from 'recharts';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -164,6 +166,40 @@ const Dashboard = () => {
             </div>
           </motion.div>
         ))}
+      </div>
+
+      {/* Command Center - Quick Access Modules */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight">System Command Center</h3>
+          <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] bg-primary/10 px-4 py-2 rounded-xl">All Modules Operational</span>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+          {[
+            { id: 1, name: 'Sales & Inquiry', href: '/sales-inquiry', icon: Search, color: 'text-blue-500' },
+            { id: 2, name: 'Order Mgmt', href: '/order-management', icon: ShoppingCart, color: 'text-indigo-500' },
+            { id: 3, name: 'Prod. Planning', href: '/production-planning', icon: Layers, color: 'text-purple-500' },
+            { id: 4, name: 'Inventory Mgmt', href: '/inventory-management', icon: Package, color: 'text-rose-500' },
+            { id: 5, name: 'Purchase Mgmt', href: '/purchase-management', icon: ShoppingBag, color: 'text-orange-500' },
+            { id: 6, name: 'Prod. Tracking', href: '/production-tracking', icon: Activity, color: 'text-emerald-500' },
+            { id: 7, name: 'Quality Control', href: '/quality-control', icon: ShieldCheck, color: 'text-teal-500' },
+            { id: 8, name: 'Dispatch & Log', href: '/dispatch-logistics', icon: Truck, color: 'text-sky-500' },
+            { id: 9, name: 'Accounts & Bill', href: '/accounts-billing', icon: CreditCard, color: 'text-emerald-600' },
+            { id: 10, name: 'Executive Reports', href: '/executive-reports', icon: BarChart3, color: 'text-slate-700' },
+          ].map((m) => (
+            <Link
+              key={m.id}
+              to={m.href}
+              className="bg-white dark:bg-gray-900 p-6 rounded-[32px] border border-gray-100 dark:border-gray-800 flex flex-col items-center text-center group transition-all hover:shadow-xl hover:border-primary/20"
+            >
+              <div className={`p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 ${m.color} mb-4 group-hover:bg-primary group-hover:text-white transition-all`}>
+                <m.icon size={24} />
+              </div>
+              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Module {m.id}</p>
+              <h4 className="text-xs font-black text-gray-900 dark:text-white uppercase">{m.name}</h4>
+            </Link>
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "Manufacturing ERP for Eagal Bags",
   "scripts": {
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
-    "server": "cd server && npm start",
-    "client": "cd client && npm run dev",
-    "build": "cd client && npm run build"
+    "install-all": "npm install && cd client && npm install",
+    "dev": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "preview": "cd client && npm run preview"
   },
   "author": "durgeshnikam01",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^9.6.1"
+  }
 }

@@ -73,7 +73,7 @@ const ProductionTracking = () => {
       const jobRef = `SO-${order.salesOrder?._id?.substring(18).toUpperCase() || '???'}`;
       const qty    = order.salesOrder?.orderItems?.[0]?.quantity || 1000;
 
-      order.stages.forEach(stage => {
+      (order.stages || []).forEach(stage => {
         if (!stage.assignedTo) return;
         const mId   = stage.assignedTo.includes(' (') ? stage.assignedTo.split(' (')[0] : stage.assignedTo;
         const wName = stage.assignedTo.includes(' (') ? stage.assignedTo.split(' (')[1].replace(')', '') : 'Operator';
@@ -147,12 +147,13 @@ const ProductionTracking = () => {
 
   // ─── Stage bar helpers ────────────────────────────────────────────────────────
   const getStageStatus = (order, stageName) => {
+    if (!order.stages) return 'Pending';
     const s = order.stages.find(s => s.stage === stageName);
     return s?.status || 'Pending';
   };
 
   const completedCount = (order) =>
-    order.stages.filter(s => s.status === 'Completed').length;
+    (order.stages || []).filter(s => s.status === 'Completed').length;
 
   return (
     <div className="w-full mx-auto pb-24 h-full">
@@ -203,7 +204,7 @@ const ProductionTracking = () => {
               {filteredOrders.map(order => {
                 const isActive = activeJob?._id === order._id;
                 const done     = completedCount(order);
-                const total    = order.stages.length;
+                const total    = (order.stages || []).length || 5;
 
                 return (
                   <motion.div
@@ -310,9 +311,8 @@ const ProductionTracking = () => {
                 <div className="space-y-3">
                   <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Pipeline Stages</p>
                   {PIPELINE_STAGES.map((stageName, idx) => {
-                    const stageObj = activeJob.stages.find(s => s.stage === stageName);
-                    if (!stageObj) return null;
-                    const status = stageObj.status;
+                    const stageObj = (activeJob.stages || []).find(s => s.stage === stageName);
+                    const status = stageObj?.status || 'Pending';
 
                     return (
                       <div key={stageName}

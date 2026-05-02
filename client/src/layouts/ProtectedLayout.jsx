@@ -51,18 +51,24 @@ const ProtectedLayout = () => {
 
   const sections = [
     {
-      title: 'Sales & Orders',
+      title: 'Main Hub',
+      items: [
+        { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+      ]
+    },
+    {
+      title: 'Customer Side',
       items: [
         { name: '1. Sales & Inquiry', href: '/sales-inquiry', icon: Search },
         { name: '2. Order Management', href: '/order-management', icon: ShoppingCart },
       ]
     },
     {
-      title: 'Planning & Supply',
+      title: 'Supply Chain',
       items: [
         { name: '3. Production Planning', href: '/production-planning', icon: Layers },
-        { name: '4. Inventory Master', href: '/inventory-management', icon: Package },
-        { name: '5. Purchase Flow', href: '/purchase-management', icon: ShoppingBag },
+        { name: '4. Inventory Management', href: '/inventory-management', icon: Package },
+        { name: '5. Purchase Management', href: '/purchase-management', icon: ShoppingBag },
       ]
     },
     {
@@ -74,9 +80,9 @@ const ProtectedLayout = () => {
       ]
     },
     {
-      title: 'Administration',
+      title: 'Finance & Growth',
       items: [
-        { name: '9. Billing & Payments', href: '/accounts-billing', icon: CreditCard },
+        { name: '9. Accounts & Billing', href: '/accounts-billing', icon: CreditCard },
         { name: '10. Executive Reports', href: '/executive-reports', icon: BarChart3 },
       ]
     }
@@ -122,28 +128,30 @@ const ProtectedLayout = () => {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto py-8 px-4 space-y-10">
-              {sections.map((section) => (
-                <div key={section.title}>
-                  <p className="px-5 text-[9px] font-black text-gray-600 uppercase tracking-[0.25em] mb-5">{section.title}</p>
-                  <div className="space-y-1">
-                    {section.items.map((item) => {
-                      const isActive = location.pathname === item.href;
-                      return (
-                        <Link
-                          key={item.name}
-                          to={item.href}
-                          onClick={() => window.innerWidth <= 1024 && setIsSidebarOpen(false)}
-                          className={`flex items-center px-5 py-3.5 rounded-2xl transition-all duration-300 group ${isActive ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'}`}
-                        >
-                          <item.icon size={18} className={`mr-4 transition-colors ${isActive ? 'text-white' : 'text-gray-600 group-hover:text-primary'}`} />
-                          <span className="text-xs font-black uppercase tracking-wider">{item.name}</span>
-                        </Link>
-                      );
-                    })}
+            <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-4 custom-scrollbar">
+              <div className="space-y-8 pb-20">
+                {sections.map((section) => (
+                  <div key={section.title}>
+                    <p className="px-5 text-[9px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4 opacity-50">{section.title}</p>
+                    <div className="space-y-1">
+                      {section.items.map((item) => {
+                        const isActive = location.pathname === item.href;
+                        return (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            onClick={() => window.innerWidth <= 1024 && setIsSidebarOpen(false)}
+                            className={`flex items-center px-5 py-3 rounded-2xl transition-all duration-300 group ${isActive ? 'bg-primary text-white shadow-xl shadow-primary/20 scale-[1.02]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+                          >
+                            <item.icon size={18} className={`mr-4 transition-colors ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-primary'}`} />
+                            <span className="text-xs font-bold truncate">{item.name}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             <div className="p-6 bg-gray-900 border-t border-white/5">

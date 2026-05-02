@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedLayout from '../layouts/ProtectedLayout';
 import Login from '../pages/Login';
+import Dashboard from '../pages/Dashboard';
 import SalesInquiry from '../pages/SalesInquiry';
 import OrderManagement from '../pages/OrderManagement';
 import ProductionPlanning from '../pages/ProductionPlanning';
@@ -20,7 +21,8 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         
         <Route element={<ProtectedLayout />}>
-          <Route path="/" element={<Navigate to="/sales-inquiry" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/sales-inquiry" element={<SalesInquiry />} />
           <Route path="/order-management" element={<OrderManagement />} />
           <Route path="/production-planning" element={<ProductionPlanning />} />
@@ -34,7 +36,7 @@ const AppRoutes = () => {
           <Route path="/customers" element={<Customers />} />
         </Route>
         
-        <Route path="*" element={<Navigate to="/sales-inquiry" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
   );

@@ -304,15 +304,15 @@ const AccountsBilling = () => {
                            <div className="w-64 space-y-3">
                               <div className="flex justify-between text-xs font-bold text-gray-500">
                                  <span>Sub-Total:</span>
-                                 <span>₹{generatedInvoice.subTotal.toLocaleString()}</span>
+                                 <span>₹{(Number(generatedInvoice.subTotal) || 0).toLocaleString()}</span>
                               </div>
                               <div className="flex justify-between text-xs font-bold text-emerald-500">
                                  <span>GST ({generatedInvoice.gstRate}%):</span>
-                                 <span>₹{generatedInvoice.gstAmount.toLocaleString()}</span>
+                                 <span>₹{(Number(generatedInvoice.gstAmount) || 0).toLocaleString()}</span>
                               </div>
                               <div className="flex justify-between text-xl font-black text-black pt-3 border-t-2 border-black">
                                  <span>Grand Total:</span>
-                                 <span>₹{generatedInvoice.totalAmount.toLocaleString()}</span>
+                                 <span>₹{(Number(generatedInvoice.totalAmount) || 0).toLocaleString()}</span>
                               </div>
                            </div>
                         </div>
@@ -331,14 +331,14 @@ const AccountsBilling = () => {
                           <div className="absolute right-0 top-0 bottom-0 w-32 bg-white/10 blur-3xl rounded-full" />
                           <div className="relative z-10">
                              <p className="text-[10px] font-black uppercase text-emerald-100 tracking-[0.2em] mb-2">Total Receivables</p>
-                             <h4 className="text-4xl font-black tracking-tighter italic">₹{invoices.reduce((sum, inv) => inv.status !== 'Paid' ? sum + inv.totalAmount : sum, 0).toLocaleString()}</h4>
+                             <h4 className="text-4xl font-black tracking-tighter italic">₹{invoices.reduce((sum, inv) => inv.status !== 'Paid' ? sum + (Number(inv.totalAmount) || 0) : sum, 0).toLocaleString()}</h4>
                           </div>
                           <TrendingUp size={48} className="text-white/20 relative z-10" />
                        </div>
                        <div className="bg-white dark:bg-gray-900 p-8 rounded-[40px] border border-gray-100 dark:border-white/5 flex items-center justify-between shadow-sm">
                           <div>
                              <p className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-2">Tax Liability (GST)</p>
-                             <h4 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter italic">₹{invoices.reduce((sum, inv) => sum + inv.gstAmount, 0).toLocaleString()}</h4>
+                             <h4 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter italic">₹{invoices.reduce((sum, inv) => sum + (Number(inv.gstAmount) || 0), 0).toLocaleString()}</h4>
                           </div>
                           <PieChart size={48} className="text-gray-100" />
                        </div>
@@ -369,7 +369,7 @@ const AccountsBilling = () => {
                                 <div className="flex items-center gap-8 text-right">
                                    <div>
                                       <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Amount</p>
-                                      <p className="text-xs font-black text-gray-900 dark:text-white">₹{inv.totalAmount.toLocaleString()}</p>
+                                      <p className="text-xs font-black text-gray-900 dark:text-white">₹{(Number(inv.totalAmount) || 0).toLocaleString()}</p>
                                    </div>
                                    <div className="flex items-center gap-3">
                                       <button 
@@ -389,11 +389,14 @@ const AccountsBilling = () => {
                                    </div>
                                    <button 
                                      onClick={() => setGeneratedInvoice({
-                                        ...inv,
-                                        customerData: inv.customer,
-                                        orderData: inv.order,
-                                        dispatchRef: `REF-${inv._id.substring(18).toUpperCase()}`,
-                                        gstRate: 18
+                                       ...inv,
+                                        customerData: inv.customer || {},
+                                        orderData: inv.order || {},
+                                        dispatchRef: `REF-${(inv._id || '').substring(0, 8).toUpperCase()}`,
+                                        gstRate: inv.gstRate || 18,
+                                        subTotal: Number(inv.subTotal) || 0,
+                                        gstAmount: Number(inv.gstAmount) || 0,
+                                        totalAmount: Number(inv.totalAmount) || 0
                                      })}
                                      className="p-2 text-gray-300 hover:text-primary transition-colors"
                                    >
